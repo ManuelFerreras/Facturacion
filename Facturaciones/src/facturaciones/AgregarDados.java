@@ -5,6 +5,8 @@
  */
 package facturaciones;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author manue
@@ -190,7 +192,14 @@ public class AgregarDados extends javax.swing.JDialog {
     }//GEN-LAST:event_jCheckBoxConColorActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if ((jCheckBoxBlancoNegro.isSelected() || jCheckBoxConColor.isSelected()) && (jCheckBoxPlastico.isSelected() || jCheckBoxMadera.isSelected())) {
+        if ((!jCheckBoxBlancoNegro.isSelected() && ! jCheckBoxConColor.isSelected()) && (!jCheckBoxPlastico.isSelected() && !jCheckBoxMadera.isSelected())){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el color y la calidad del producto.");
+        }
+        else if ((!jCheckBoxBlancoNegro.isSelected() && ! jCheckBoxConColor.isSelected())){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el color del producto.");
+        } else if((!jCheckBoxPlastico.isSelected() && !jCheckBoxMadera.isSelected())) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar la calidad del producto.");
+        } else{
             if(jCheckBoxBlancoNegro.isSelected()) {
                 dados.instantiateSinColor();
             } else {
@@ -205,6 +214,7 @@ public class AgregarDados extends javax.swing.JDialog {
             
             this.setVisible(false);
         }
+
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

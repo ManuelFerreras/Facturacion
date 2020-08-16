@@ -5,6 +5,8 @@
  */
 package facturaciones;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author manue
@@ -191,7 +193,14 @@ public class AgregarCartas extends javax.swing.JDialog {
     }//GEN-LAST:event_jCheckBoxConColorActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if ((jCheckBoxBlancoNegro.isSelected() || jCheckBoxConColor.isSelected()) && (jCheckBoxNormal.isSelected() || jCheckBoxPremium.isSelected())) {
+        if ((!jCheckBoxBlancoNegro.isSelected() && ! jCheckBoxConColor.isSelected()) && (!jCheckBoxNormal.isSelected() && !jCheckBoxPremium.isSelected())){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el color y la calidad del producto.");
+        }
+        else if ((!jCheckBoxBlancoNegro.isSelected() && ! jCheckBoxConColor.isSelected())){
+            JOptionPane.showMessageDialog(this, "Debe seleccionar el color del producto.");
+        } else if((!jCheckBoxNormal.isSelected() && !jCheckBoxPremium.isSelected())) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar la calidad del producto.");
+        } else{
             if(jCheckBoxBlancoNegro.isSelected()) {
                 cartas.instantiateSinColor();
             } else {

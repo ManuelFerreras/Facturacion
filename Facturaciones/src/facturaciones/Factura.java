@@ -5,10 +5,21 @@
  */
 package facturaciones;
 
+import com.itextpdf.io.font.FontConstants;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.IBlockElement;
+import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
+import static com.itextpdf.layout.property.Property.FONT;
+import com.itextpdf.layout.property.TextAlignment;
+import com.sun.javafx.font.FontFactory;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,6 +28,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -25,7 +39,8 @@ public class Factura extends javax.swing.JDialog {
     ArrayList<Cartas> cartas;
     ArrayList<Dados> dados;
     private int precioTotal;
-    private static final String DEST = "D:\\Facturacion\\Facturacion"; 
+    private String dest;
+    private static final String LOGO = System.getProperty("user.dir") + "\\Logo\\logo.png";
     
     public Factura(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -44,13 +59,48 @@ public class Factura extends javax.swing.JDialog {
         
     }
     
+    
+    
     public void CrearPdf(String dest) throws IOException{
+        PdfFont boldFont = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
+        PdfFont normalFont = PdfFontFactory.createFont(FontConstants.HELVETICA);
+        PdfFont headerFont = PdfFontFactory.createFont(FontConstants.TIMES_BOLD);
+        float [] pointColumnWidths = {150F, 150F, 150F, 150F};   
+        Table table = new Table(pointColumnWidths);
+        Image logo = new Image(ImageDataFactory.create(LOGO));
+        Paragraph p1 = new Paragraph("FACTURA C").setFont(headerFont).setFontSize(20);
+        
+        p1.setMarginLeft(200f);
+        Paragraph p2 = new Paragraph("").add(logo).add("\n\n\n\n\n");
+        p2.setMarginLeft(90f);
+        
+        for (int i = 0; i < jTable1.getColumnCount(); i++) {
+                table.addHeaderCell(jTable1.getColumnName(i)).setFont(boldFont).setFontSize(14);
+            }
+      
+        for (int rows = 0; rows < jTable1.getRowCount(); rows++) {
+            for (int cols = 0; cols < jTable1.getColumnCount(); cols++) {
+                table.addCell(jTable1.getModel().getValueAt(rows, cols).toString()).setFont(normalFont);
+                table.getHeader().setFont(boldFont);
+            }
+        }
+        
+        for (int i = 0; i < 8; i++) {
+            if(i == 7){
+                table.addCell("Total: " + jLabel2.getText());
+            } else{
+                table.addCell("").setFont(normalFont);
+            }
+        }
+        
         PdfWriter writer = new PdfWriter(dest);
         PdfDocument pdf = new PdfDocument(writer);
         Document document = new Document(pdf);
-        document.add(new Paragraph("Hola Mundo"));
+        document.add(p1);
+        document.add(p2);
+        document.add(table);
         document.close();
-        System.out.println("Listo");
+        JOptionPane.showMessageDialog(this, "PDF Creado exitosamente.");
     }
     
     
@@ -73,11 +123,11 @@ public class Factura extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         
         for (int i = 0; i < cartas.size(); i++) {
-            model.addRow(new Object[]{"Cartas", cartas.get(i).getTipo(), cartas.get(i).getColor(), cartas.get(i).getPrecio()});
+            model.addRow(new Object[]{"Cartas", cartas.get(i).getTipo(), cartas.get(i).getColor(),"$ " + cartas.get(i).getPrecio()});
             precioTotal+= cartas.get(i).getPrecio();
         }
         for (int i = 0; i < dados.size(); i++) {
-            model.addRow(new Object[]{"Dados", dados.get(i).getTipo(), dados.get(i).getColor(), dados.get(i).getPrecio()});
+            model.addRow(new Object[]{"Dados", dados.get(i).getTipo(), dados.get(i).getColor(),"$ " + dados.get(i).getPrecio()});
             precioTotal+= dados.get(i).getPrecio();
         }
         
@@ -215,7 +265,15 @@ public class Factura extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+        JButton open = new JButton();
+        JFileChooser fc = new JFileChooser();
+        fc.setDialogTitle("Seleccione la Carpeta Donde Exportar el PDF");
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        if(fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION){}
+        dest =  fc.getSelectedFile().getAbsolutePath() + "\\Factura.pdf";
+        try {
+            CrearPdf(dest);
+        } catch (IOException ex) {}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
