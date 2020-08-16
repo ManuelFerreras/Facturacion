@@ -25,4 +25,20 @@ public class Dados {
     public void instantiatePlastico(){
         tipo = new Plastico();
     }
+
+    public String getTipo() {
+        if (tipo instanceof Madera){
+            return "Madera";
+        } else {
+            return "Plastico";
+        }
+    }
+
+    public String getColor() {
+        if(color instanceof ConColorDados) {
+            return "Con Color";
+        } else {
+            return "Blancos";
+        }
+    }
 }

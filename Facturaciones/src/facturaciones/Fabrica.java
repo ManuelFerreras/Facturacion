@@ -16,7 +16,9 @@ public class Fabrica extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         
     }
-
+    public int f(){
+        return 5;
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -116,7 +118,17 @@ public class Fabrica extends javax.swing.JFrame {
     }//GEN-LAST:event_ButtonExitActionPerformed
 
     private void ButtonCrearFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonCrearFacturaActionPerformed
-        // TODO add your handling code here:
+        Window parentWindow = SwingUtilities.windowForComponent(this);
+        Frame parentFrame = (Frame)parentWindow;
+        Factura factura = new Factura(parentFrame, true);
+        
+        factura.setCartas(cartas);
+        factura.setDados(dados);
+        factura.updateTable();
+        
+        this.setVisible(false);
+        factura.setVisible(true);
+        this.setVisible(true);
     }//GEN-LAST:event_ButtonCrearFacturaActionPerformed
 
     private void ButtonAgregarCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonAgregarCartasActionPerformed
@@ -127,6 +139,7 @@ public class Fabrica extends javax.swing.JFrame {
         agregarCartasWindow.setVisible(true);
         
         cartas.add(agregarCartasWindow.getCartas());
+        agregarCartasWindow.dispose();
         
         this.setVisible(true);
         
@@ -140,6 +153,7 @@ public class Fabrica extends javax.swing.JFrame {
         agregarDadosWindow.setVisible(true);
         
         dados.add(agregarDadosWindow.getDados());
+        agregarDadosWindow.dispose();
         
         this.setVisible(true);
     }//GEN-LAST:event_ButtonAgregarDadosActionPerformed

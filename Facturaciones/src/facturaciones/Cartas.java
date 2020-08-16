@@ -25,4 +25,20 @@ public class Cartas {
     public void instantiateNormal(){
         tipo = new Normal();
     }
+
+    public String getTipo() {
+        if (tipo instanceof Premium){
+            return "Premium";
+        } else {
+            return "Normal";
+        }
+    }
+
+    public String getColor() {
+        if(color instanceof ConColorCartas) {
+            return "Con Color";
+        } else {
+            return "Blanco y Negro";
+        }
+    }
 }
