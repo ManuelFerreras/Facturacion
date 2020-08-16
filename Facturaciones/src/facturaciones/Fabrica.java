@@ -138,7 +138,10 @@ public class Fabrica extends javax.swing.JFrame {
         this.setVisible(false);
         agregarCartasWindow.setVisible(true);
         
+        if (agregarCartasWindow.status == 0){
         cartas.add(agregarCartasWindow.getCartas());
+        }
+        
         agregarCartasWindow.dispose();
         
         this.setVisible(true);
@@ -152,7 +155,10 @@ public class Fabrica extends javax.swing.JFrame {
         this.setVisible(false);
         agregarDadosWindow.setVisible(true);
         
+        if (agregarDadosWindow.status == 0){
         dados.add(agregarDadosWindow.getDados());
+        }
+
         agregarDadosWindow.dispose();
         
         this.setVisible(true);
