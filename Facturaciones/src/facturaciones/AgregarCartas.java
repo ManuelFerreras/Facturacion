@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author manue
+ * @author manuel
  */
 public class AgregarCartas extends javax.swing.JDialog {
     Cartas cartas = new Cartas();

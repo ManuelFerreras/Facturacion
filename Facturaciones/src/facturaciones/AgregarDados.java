@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author manue
+ * @author manuel
  */
 public class AgregarDados extends javax.swing.JDialog {
     Dados dados = new Dados();
